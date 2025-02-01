@@ -43,25 +43,7 @@ public class AuthController {
         return "/pages/auth/login";
     }
     
-    @PostMapping("logUser")
-	public String logUser(Model model, @ModelAttribute LoginUser loginUser) {
-    	
-    	try{
-    		UserDetails a = loginService.loadUserByUsername(loginUser.getUsername());
-    		
-    		if(a.getAuthorities().equals("ROLE_" + Constants.USER_ESTUDANTE)) {
-    			return "redirect:/estudantes/index";
-    		} else {
-    			return "redirect:/instituicoes/index";
-    		}
-    		
-    	} catch (UsernameNotFoundException e) {
-    		return "redirect:/auth/login";
-    	}
-
-	}
-    
-	@GetMapping("instituicao")
+    @GetMapping("instituicao")
 	public String registerInstituicaoGet(Model model) {
     	if(model.getAttribute("instituicao") == null) {
         	model.addAttribute("instituicao", new Instituicao());

@@ -17,6 +17,7 @@ import br.edu.ifsp.campus_match_spring.util.Constants;
 
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
@@ -41,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer{
 	
 	@Value("${spring.mail.password}")
 	private String mailPassword;
-	
+		
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("pages/web/landing_page");
@@ -94,8 +95,10 @@ public class WebConfig implements WebMvcConfigurer{
 			).formLogin(
 					login -> 
 						login.loginPage("/auth/login")
+						.successHandler(new CustomAuthenticationSuccessHandler())
 					)
 			.httpBasic(Customizer.withDefaults())
+			
 			;
 
 		return http.build();
