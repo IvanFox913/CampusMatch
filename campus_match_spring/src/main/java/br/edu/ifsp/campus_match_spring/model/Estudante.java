@@ -22,7 +22,9 @@ import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "estudante")
-public class Estudante implements UserDetails {
+public class Estudante implements UserDetails  {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -113,20 +115,20 @@ public class Estudante implements UserDetails {
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
-		return List.of(new SimpleGrantedAuthority(Constants.USER_ESTUDANTE));
-	}
+		return List.of(new SimpleGrantedAuthority("ROLE_" + Constants.USER_ESTUDANTE));	}
 
 	@Override
 	public String getPassword() {
-		return getSenha() ;
+		return getSenha();
 	}
 
 	@Override
 	public String getUsername() {
 		return getEmail();
 	}
+
+
 }

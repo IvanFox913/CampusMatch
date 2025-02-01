@@ -1,11 +1,7 @@
 package br.edu.ifsp.campus_match_spring.controller;
 
-import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +16,6 @@ import br.edu.ifsp.campus_match_spring.model.Instituicao;
 import br.edu.ifsp.campus_match_spring.model.LoginUser;
 import br.edu.ifsp.campus_match_spring.model.UserRecoveryPassword;
 import br.edu.ifsp.campus_match_spring.service.LoginService;
-import br.edu.ifsp.campus_match_spring.util.Constants;
 
 
 @Controller
@@ -47,27 +42,7 @@ public class AuthController {
     @PostMapping("logUser")
 	public String logUser(Model model, @ModelAttribute LoginUser loginUser) {
     	
-    	Authentication auth = loginService.tryLogin(loginUser);
-    	
-    	if(!auth.isAuthenticated()) {
-    		model.addAttribute("LoginUser", loginUser);
-        	
-        	return "/pages/auth/login";
-    	}
-    	
-    	for(GrantedAuthority authority : auth.getAuthorities()) {
-    		String role = authority.getAuthority();
-    		
-    	switch(role) {
-    		case Constants.USER_ESTUDANTE:
-    			return "redirect:/estudantes/home";
-    		case Constants.USER_INSTITUICAO:
-    			return "redirect:/instituicoes/home";
-    		case Constants.STRING_FALSE:
-    			break;
-    		}
-    	}
-    	
+ 
     	return "/pages/auth/login";
 
 	}

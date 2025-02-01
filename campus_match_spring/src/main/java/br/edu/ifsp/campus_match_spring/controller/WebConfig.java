@@ -3,24 +3,24 @@ package br.edu.ifsp.campus_match_spring.controller;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import br.edu.ifsp.campus_match_spring.util.Constants;
 
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
 
 
-@EnableWebSecurity
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
 	
@@ -46,41 +46,6 @@ public class WebConfig implements WebMvcConfigurer{
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("pages/web/landing_page");
 	}
-	
-	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers(
-						"/"
-						,"/css/**"
-						,"/auth/**"
-						,"/estudantes/save/**"
-						,"/instituicoes/save/**"
-						).permitAll()
-				.requestMatchers(
-						"/instituicoes/**"
-						).hasRole("instituicao")
-				.requestMatchers(
-						"/estudantes/**"
-						).hasRole("estudante")
-				.anyRequest().authenticated()
-			)
-			.formLogin((form) -> form
-				.loginPage("/auth/login")
-				.permitAll()
-			)
-			.logout((logout) -> logout.permitAll());
-
-		return http.build();
-	}
-
-    @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
-	}
-	
 
 	@Bean
 	JavaMailSender javaMailSender() {
@@ -100,9 +65,50 @@ public class WebConfig implements WebMvcConfigurer{
 	    return mailSender;
 	}
 	
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.csrf(csrf->csrf.disable())
+			.authorizeHttpRequests(
+					
+					(requests) -> requests
+					.requestMatchers(
+							"/"
+							,"/css/**"
+							,"/auth/**"
+							,"/estudantes/save/**"
+							,"/instituicoes/save/**"
+							).permitAll()
+					
+					.requestMatchers(
+							"/instituicoes/**"
+							).hasRole(Constants.USER_INSTITUICAO)
+					
+					.requestMatchers(
+							"/estudantes/**"
+							).hasRole(Constants.USER_ESTUDANTE)
+					
+					.anyRequest().authenticated()
+					
+					
+			).formLogin(
+					login -> 
+						login
+						.defaultSuccessUrl("/estudantes/teste")
+					)
+			.httpBasic(Customizer.withDefaults())
+			;
+
+		return http.build();
+	}
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+		return configuration.getAuthenticationManager();
+	}
+	
     @Bean
-    PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 }

@@ -3,25 +3,22 @@ package br.edu.ifsp.campus_match_spring.service;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifsp.campus_match_spring.model.Estudante;
 import br.edu.ifsp.campus_match_spring.model.Instituicao;
-import br.edu.ifsp.campus_match_spring.model.LoginUser;
 import br.edu.ifsp.campus_match_spring.repository.EstudanteRepo;
 import br.edu.ifsp.campus_match_spring.repository.InstituicaoRepo;
 
 @Service
-public class LoginService {
+public class LoginService implements UserDetailsService {
 	
 	@Autowired
 	private PasswordService passwordService;
-	
-	@Autowired
-	private AuthenticationManager authenticationManager;
+
 	
 	@Autowired
 	private MailService mailService;
@@ -33,13 +30,6 @@ public class LoginService {
         this.estudanteRepo = estudanteRepo;
         this.instituicaoRepo = instituicaoRepo;
     }
-	  
-	
-	public Authentication tryLogin(LoginUser user) {
-		var usernamePassword = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
-		return authenticationManager.authenticate(usernamePassword);
-	}
-    
 	
 	public boolean recoveryPassword(String email, String current_url) {
 		Estudante estudante = estudanteRepo.getByEmail(email);
@@ -114,5 +104,19 @@ public class LoginService {
 		
 	}
 
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		UserDetails e = estudanteRepo.findByEmail(username);
+		if(e == null) {
+			UserDetails i = instituicaoRepo.findByEmail(username);
+			if (i == null) {
+				throw new UsernameNotFoundException("Não foi possível encontrar login!.");
+			} else {
+				return i;
+			}
+		}else {
+			return e;
+		}
+	}
 
 }

@@ -12,6 +12,7 @@ public interface InstituicaoRepo extends JpaRepository<Instituicao, Long>{
 	Instituicao getByEmail(String email);
 
 	Instituicao getByUuid(String uuid);
+	
+	UserDetails findByEmail(String email);
 
-	UserDetails getLoginByEmail(String username);
 }
