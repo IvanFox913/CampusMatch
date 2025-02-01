@@ -13,9 +13,9 @@
                 ENTRAR
             </div>
             <div class="card-body">
-                <form method="post" th:action="@{/auth/logUser}" th:object="${LoginUser}">
-                    <label for="email">Email</label>
-                    <input th:value="*{email}" type="email" id="email" name="email" required>
+                <form method="post" th:object="${LoginUser}">
+                    <label for="username">Email</label>
+                    <input th:value="*{username}" type="username" id="username" name="username" required>
 
                     <label for="password">Senha</label>
                     <input type="password" id="password" name="password" required>

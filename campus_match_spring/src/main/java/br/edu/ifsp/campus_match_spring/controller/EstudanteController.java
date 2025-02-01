@@ -31,11 +31,6 @@ public class EstudanteController {
 	@Autowired
 	private EstudanteService estudanteService;
 	
-	@GetMapping("teste")
-	public String teste() {
-		return "<br> OK <br>";
-	}
-	
 	@GetMapping("home")
 	public String home() {
 		

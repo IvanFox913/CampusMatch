@@ -2,6 +2,9 @@ package br.edu.ifsp.campus_match_spring.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +19,7 @@ import br.edu.ifsp.campus_match_spring.model.Instituicao;
 import br.edu.ifsp.campus_match_spring.model.LoginUser;
 import br.edu.ifsp.campus_match_spring.model.UserRecoveryPassword;
 import br.edu.ifsp.campus_match_spring.service.LoginService;
+import br.edu.ifsp.campus_match_spring.util.Constants;
 
 
 @Controller
@@ -42,8 +46,18 @@ public class AuthController {
     @PostMapping("logUser")
 	public String logUser(Model model, @ModelAttribute LoginUser loginUser) {
     	
- 
-    	return "/pages/auth/login";
+    	try{
+    		UserDetails a = loginService.loadUserByUsername(loginUser.getUsername());
+    		
+    		if(a.getAuthorities().equals("ROLE_" + Constants.USER_ESTUDANTE)) {
+    			return "redirect:/estudantes/index";
+    		} else {
+    			return "redirect:/instituicoes/index";
+    		}
+    		
+    	} catch (UsernameNotFoundException e) {
+    		return "redirect:/auth/login";
+    	}
 
 	}
     
@@ -72,8 +86,8 @@ public class AuthController {
     @PostMapping("recoverypassword")
     public String recoveryPasswordSendemail(Model model, @ModelAttribute LoginUser loginUser){
 		String current_url = ServletUriComponentsBuilder.fromCurrentRequest().toUriString();
-    	loginService.recoveryPassword(loginUser.getEmail(), current_url);
-    	model.addAttribute("email", loginUser.getEmail());
+    	loginService.recoveryPassword(loginUser.getUsername(), current_url);
+    	model.addAttribute("email", loginUser.getUsername());
     	
     	return "/pages/auth/recuperarsenhamensagem";
     }

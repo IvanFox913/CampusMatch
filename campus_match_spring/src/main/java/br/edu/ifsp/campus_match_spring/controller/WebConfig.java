@@ -77,6 +77,7 @@ public class WebConfig implements WebMvcConfigurer{
 							,"/auth/**"
 							,"/estudantes/save/**"
 							,"/instituicoes/save/**"
+							,"/favicon.ico"
 							).permitAll()
 					
 					.requestMatchers(
@@ -92,8 +93,7 @@ public class WebConfig implements WebMvcConfigurer{
 					
 			).formLogin(
 					login -> 
-						login
-						.defaultSuccessUrl("/estudantes/teste")
+						login.loginPage("/auth/login")
 					)
 			.httpBasic(Customizer.withDefaults())
 			;
