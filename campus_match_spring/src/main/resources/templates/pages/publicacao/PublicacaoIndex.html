@@ -2,31 +2,67 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Match</title>
+    <link rel="stylesheet" href="/css/style_instituicao.css">
 </head>
 <body>
-	<h1>Publicação CRUD</h1>
-	
-	<a th:href="@{new}">Nova Postagem</a>
-	
-	<table border="1">
-   		<thead>
-   			<tr>
-   				<th>Id</th>
-   				<th>Post</th>
-   				<th>Data Publicada</th>
-   				<th>Delete</th>
-   			</tr>
-   		</thead>
-   		<tbody>
-   			<tr th:each="publicacao : ${publicacoes}">
-   				<td><a th:text="${publicacao.id}" th:href="@{editPublicacao/{id}(id=${publicacao.id})}"></a></td>
-   				<td th:text="${publicacao.descricao}"></td>
-   				<td th:text="${publicacao.dataPublicacao}"></td>
-   				<td><a th:href="@{deletePublicacao/{id}(id=${publicacao.id})}">Deletar</a></td>
-   			</tr>
-   		</tbody>
-   	</table>
-	
+    <header>
+        <div class="logo">Campus Match</div>
+        <nav>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidenav">
+            <ul>
+                <li><a th:href="@{/cursos/index}">Cursos</a></li>
+				<li><a th:href="@{/infraestruturas/index}">Infraestrutura</a></li>
+                <li><a th:href="@{/publicacoes/index}">Publicação</a></li>
+                <li><a th:href="@{/instituicoes/profile}">Perfil</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+			<br>
+			<br>
+			<br>
+			<h1>PUBLICAÇÕES</h1>
+
+			<table border="1">
+				<thead>
+					<tr>
+						<th>Codigo</th>
+						<th>Post</th>
+						<th>Data Publicada</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="publicacao : ${publicacoes}">
+						<td><a th:text="${publicacao.id}" th:href="@{editPublicacao/{id}(id=${publicacao.id})}"></a></td>
+						<td th:text="${publicacao.descricao}"></td>
+						<td th:text="${publicacao.dataPublicacao}"></td>
+						<td><a th:href="@{deletePublicacao/{id}(id=${publicacao.id})}">Deletar</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<br><br><br>
+			<form method="post" th:action="@{/publicacoes/save}">
+				<div>
+					<label for="descricao">Post</label>
+					<input type="text" name="descricao">
+				</div>
+				<div>
+					<button type="Criar">Submit</button>
+				</div>
+			</form>
+			
+        </main>
+    </div>
 </body>
 </html>
+
+
+

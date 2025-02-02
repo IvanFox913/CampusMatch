@@ -1,29 +1,53 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Relacionamentos Instituição-Curso</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Campus Match</title>
+    <link rel="stylesheet" href="/css/style_instituicao.css">
 </head>
 <body>
-    <h1>Relacionamentos Instituição-Curso</h1>
-    <a th:href="@{/instituicaoCurso/new}">Novo Relacionamento</a>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Instituição</th>
-                <th>Curso</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="instituicaoPublicacao : ${instituicaoPublicacoes}">
-                <td th:text="${instituicaoPublicacao.instituicao.nome}"></td>
-                <td th:text="${instituicaoPublicacao.post.dataPublicacao}"></td>
-                <td th:text="${instituicaoPublicacao.post.descricao}"></td>
-                <td>
-                    <a th:href="@{/instituicaoPublicacao/delete/{id}(id=${instituicaoPublicacao.id})}">Excluir</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <header>
+        <div class="logo">Campus Match</div>
+        <nav>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidenav">
+            <ul>
+                <li><a th:href="@{/cursos/index}">Cursos</a></li>
+				<li><a th:href="@{/infraestruturas/index}">Infraestrutura</a></li>
+                <li><a th:href="@{/publicacoes/index}">Publicação</a></li>
+                <li><a th:href="@{/instituicoes/profile}">Perfil</a></li>
+            </ul>
+        </aside>
+
+        <main class="content"><br><br>
+			<h1>Relacionamentos Instituição-Curso</h1>
+			  <a th:href="@{/instituicaoCurso/new}">Novo Relacionamento</a>
+			  <table border="1">
+			      <thead>
+			          <tr>
+			              <th>Instituição</th>
+			              <th>Curso</th>
+			              <th>Ações</th>
+			          </tr>
+			      </thead>
+			      <tbody>
+			          <tr th:each="instituicaoPublicacao : ${instituicaoPublicacoes}">
+			              <td th:text="${instituicaoPublicacao.instituicao.nome}"></td>
+			              <td th:text="${instituicaoPublicacao.post.dataPublicacao}"></td>
+			              <td th:text="${instituicaoPublicacao.post.descricao}"></td>
+			              <td>
+			                  <a th:href="@{/instituicaoPublicacao/delete/{id}(id=${instituicaoPublicacao.id})}">Excluir</a>
+			              </td>
+			          </tr>
+			      </tbody>
+			  </table>
+        </main>
+    </div>
 </body>
 </html>
+

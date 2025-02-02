@@ -29,11 +29,6 @@ public class AuthController {
 	@Autowired
 	LoginService loginService;
 	
-	@GetMapping("landingPage")
-	public String landingPage(Model model) {
-		return "pages/web/landingPage";
-	}
-	
     @GetMapping("login")
     public String login(Model model) {
     	if(model.getAttribute("LoginUser") == null) {

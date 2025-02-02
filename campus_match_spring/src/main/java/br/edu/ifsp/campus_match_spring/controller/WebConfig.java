@@ -45,7 +45,7 @@ public class WebConfig implements WebMvcConfigurer{
 		
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("pages/web/landing_page");
+		registry.addViewController("/").setViewName("/pages/web/lading_page2");
 	}
 
 	@Bean

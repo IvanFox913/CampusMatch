@@ -3,6 +3,10 @@ package br.edu.ifsp.campus_match_spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,28 +31,27 @@ public class InstituicaoController {
 	@Autowired
 	private InstituicaoService instituicaoService;
 		
+	@GetMapping("profile")
+	public String profile(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Instituicao user = (Instituicao) authentication.getPrincipal();
+        
+		model.addAttribute("instituicao",instituicaoRepo.getById(user.getId()));
+		return "/pages/instituicao/InstituicaoProfile";
+	
+	}
+	
 	@GetMapping("index")
 	public String index(Model model) {
-		
 		List<Instituicao> instituicoes = instituicaoRepo.findAll();
-		
 		model.addAttribute("instituicoes", instituicoes);
-		
 		return "/pages/instituicao/InstituicaoIndex";
 	}
 	
 	@GetMapping("home")
 	public String home() {
-		
-		return "/pages/instituicao/InstituicaoHome";
-	}
-	
-	@PostMapping("new")
-	public String newInstituicao(Model model) {
-		
-		model.addAttribute("instituicao", new Instituicao());
-		
-		return "/pages/instituicao/InstituicaoNew";
+			return "/pages/instituicao/InstituicaoHome";
+
 	}
 	
 	@PostMapping("save")
@@ -78,20 +81,16 @@ public class InstituicaoController {
 
 	}
 	
-	@PostMapping("editInstituicao/{id}")
-	public String editInstituicao(@PathVariable("id") Long id, Model model) {
-	    Instituicao instituicao = instituicaoRepo.findById(id).orElse(null);
-	    model.addAttribute("instituicao", instituicao);
-	    return "/pages/instituicao/InstituicaoNew";
-	}
-
-	
-	@GetMapping("deleteInstituicao/{id}")
-	public String deleteInstituicao(@PathVariable("id") Long id) {
-		
-		instituicaoRepo.deleteById(id);
-		
-		return "redirect:/instituicoes/index";
+	@PostMapping("edit")
+	public String editInstituicao(@ModelAttribute Instituicao instituicao, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Instituicao user = (Instituicao) authentication.getPrincipal();
+       		
+        if(instituicaoService.edit(instituicao, user)) {
+    		return "redirect:/instituicoes/profile";
+        }else {
+    		return "redirect:/instituicoes/profile";
+        }
 	}
 	
 }

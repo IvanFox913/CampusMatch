@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Campus Match</title>
+    <link rel="stylesheet" href="/css/style_instituicao.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Campus Match</div>
+        <nav>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidenav">
+            <ul>
+                <li><a th:href="@{/cursos/index}">Cursos</a></li>
+				<li><a th:href="@{/infraestruturas/index}">Infraestrutura</a></li>
+                <li><a th:href="@{/publicacoes/index}">Publicação</a></li>
+                <li><a th:href="@{/instituicoes/profile}">Perfil</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+			<br>
+			<br>
+			<br>
+			<h1>PERFIL</h1>
+
+			<form th:action="@{/instituicoes/edit}" th:object="${instituicao}" method="post">
+			    <label for="nome">Nome</label><br>
+			    <input type="text" id="nome" th:field="*{nome}" /><br>
+
+			    <label for="email">E-mail</label><br>
+			    <input type="email" id="email" th:field="*{email}" /><br>
+
+			    <label for="senha">Senha</label><br>
+			    <input type="password" id="senha" th:field="*{senha}" /><br>
+
+			    <label for="cep">CEP</label><br>
+			    <input type="text" id="cep" th:field="*{cep}" /><br>
+
+			    <label for="numeroMec">Nº Mec</label><br>
+			    <input type="text" id="numeroMec" th:field="*{numeroMec}" /><br>
+
+			    <label for="campus">Campus</label><br>
+			    <input type="text" id="campus" th:field="*{campus}" /><br>
+
+				<label for="sigla">Sigla:</label><br>
+				<input th:value="*{sigla}" type="text" id="sigla" name="sigla" required><br>
+				
+				<label for="tipo">Tipo de Instituição:</label>
+					<select th:value="*{tipo}" id="tipo" name="tipo">
+					    <option value="publica">Pública</option>
+					    <option value="privada">Privada</option>
+					</select><br>
+			    <button type="submit">Salvar</button>
+			</form>
+        </main>
+    </div>
+</body>
+</html>
+
+

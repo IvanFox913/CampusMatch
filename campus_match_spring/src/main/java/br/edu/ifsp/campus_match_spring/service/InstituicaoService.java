@@ -65,4 +65,21 @@ public class InstituicaoService {
 
 	}
 	
+	public boolean edit(Instituicao instituicao, Instituicao user) {
+		
+        if(instituicao.getSenha() != null & !instituicao.getSenha().equals("")){
+        	instituicao.setSenha(passwordService.hashPassword(instituicao.getSenha()));
+        } else {
+        	instituicao.setSenha(user.getSenha());
+        }
+        
+        instituicao.setId(user.getId());
+        instituicao.setUuid(user.getUuid());
+        instituicao.setValidado(user.getValidado());
+
+		instituicaoRepo.save(instituicao);
+		
+		return true;
+	}
+	
 }
