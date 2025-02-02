@@ -27,12 +27,21 @@ label {
     margin-bottom: 5px;
 }
 
-input {
+
+
+input, select, textarea {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin: 8px 0;
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Remove spinner for number input in some browsers */
 }
 
 button {

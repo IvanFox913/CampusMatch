@@ -2,37 +2,101 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Match</title>
+    <link rel="stylesheet" href="/css/style_instituicao.css">
 </head>
 <body>
-	<h1>Curso CRUD</h1>
-	
-	<a th:href="@{new}">Novo Curso</a>
-	
-	<table border="1">
-   		<thead>
-   			<tr>
-   				<th>Id</th>
-   				<th>Área Conhecimento</th>
-   				<th>Nome</th>
-   				<th>Periodo</th>
-   				<th>Duração (semestres)</th>
-   				<th>Modalidade</th>
-   				<th>Delete</th>
-   			</tr>
-   		</thead>
-   		<tbody>
-   			<tr th:each="curso : ${cursos}">
-   				<td><a th:text="${curso.id}" th:href="@{editCurso/{id}(id=${curso.id})}"></a></td>
-   				<td th:text="${curso.areaConhecimento.areaConhecimento}"></td>
-   				<td th:text="${curso.nome}"></td>
-   				<td th:text="${curso.periodo.periodo}"></td>
-   				<td th:text="${curso.duracao}"></td>
-   				<td th:text="${curso.modalidade.modalidade}"></td>
-   				<td><a th:href="@{deleteCurso/{id}(id=${curso.id})}">X</a></td>
-   			</tr>
-   		</tbody>
-   	</table>
-	
+    <header>
+        <div class="logo">Campus Match</div>
+        <nav>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidenav">
+            <ul>
+                <li><a th:href="@{/cursos/index}">Cursos</a></li>
+				<li><a th:href="@{/infraestruturas/index}">Infraestrutura</a></li>
+                <li><a th:href="@{/publicacoes/index}">Publicação</a></li>
+                <li><a th:href="@{/instituicoes/profile}">Perfil</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+			<br>
+			<br>
+			<br>
+			<h1>CURSOS</h1>
+
+			<div class="table-container">
+				<table border="1">
+					<thead>
+						<tr>
+							<th>Codigo</th>
+							<th>Área Conhecimento</th>
+							<th>Nome</th>
+							<th>Periodo</th>
+							<th>Duração (semestres)</th>
+							<th>Modalidade</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="curso : ${cursos}">
+							<td><a th:text="${curso.id}" th:href="@{/cursos/index/{id}(id=${curso.id})}"></a></td>
+							<td th:text="${curso.areaConhecimento.areaConhecimento}"></td>
+							<td th:text="${curso.nome}"></td>
+							<td th:text="${curso.periodo.periodo}"></td>
+							<td th:text="${curso.duracao}"></td>
+							<td th:text="${curso.modalidade.modalidade}"></td>
+							<td><a th:href="@{deleteCurso/{id}(id=${curso.id})}">X</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<br><br><br>
+			<form method="post" th:action="@{/cursos/save}" th:object="${curso}">
+			                       <label for="id">Código</label>
+			                       <input th:value="${curso.id}" type="number" name="id" readonly>
+			                       <label for="nome">Nome do Curso</label>
+			                       <input th:value="${curso.nome}" type="text" name="nome" required>
+			                       <label for="periodo">Período</label>
+			                       <select name="periodo" required>
+			                           <option value="MATUTINO" th:selected="${curso.periodo == 'MATUTINO'}">Matutino</option>
+			                           <option value="VESPERTINO" th:selected="${curso.periodo == 'VESPERTINO'}">Vespertino</option>
+			                           <option value="NOTURNO" th:selected="${curso.periodo == 'NOTURNO'}">Noturno</option>
+			                           <option value="MATUTINO_VESPERTINO" th:selected="${curso.periodo == 'MATUTINO_VESPERTINO'}">Matutino/Vespertino</option>
+			                           <option value="VESPERTINO_NOTURNO" th:selected="${curso.periodo == 'VESPERTINO_NOTURNO'}">Vespertino/Noturno</option>
+			                           <option value="ASSINCRONO" th:selected="${curso.periodo == 'ASSINCRONO'}">Assíncrono</option>
+			                       </select>
+			                       <label for="duracao">Duração (em semestres)</label>
+			                       <input th:value="${curso.duracao}" type="number" name="duracao" required>
+			                       <label for="modalidade">Modalidade</label>
+			                       <select name="modalidade" required>
+			                           <option value="PRESENCIAL" th:selected="${curso.modalidade == 'PRESENCIAL'}">Presencial</option>
+			                           <option value="ENSINO_A_DISTANCIA" th:selected="${curso.modalidade == 'ENSINO_A_DISTANCIA'}">Ensino a Distância</option>
+			                           <option value="MISTO" th:selected="${curso.modalidade == 'MISTO'}">Misto</option>
+			                       </select>
+			                       <label for="areaConhecimento">Área de Conhecimento</label>
+			                       <select name="areaConhecimento" required>
+			                           <option value="CIENCIAS_EXATAS_E_DA_TERRA" th:selected="${curso.areaConhecimento == 'CIENCIAS_EXATAS_E_DA_TERRA'}">Ciências Exatas e da Terra</option>
+			                           <option value="CIENCIAS_BIOLOGICAS" th:selected="${curso.areaConhecimento == 'CIENCIAS_BIOLOGICAS'}">Ciências Biológicas</option>
+			                           <option value="ENGENHARIAS" th:selected="${curso.areaConhecimento == 'ENGENHARIAS'}">Engenharias</option>
+			                           <option value="CIENCIAS_DA_SAUDE" th:selected="${curso.areaConhecimento == 'CIENCIAS_DA_SAUDE'}">Ciências da Saúde</option>
+			                           <option value="CIENCIAS_AGRARIAS" th:selected="${curso.areaConhecimento == 'CIENCIAS_AGRARIAS'}">Ciências Agrárias</option>
+			                           <option value="CIENCIAS_SOCIAIS_APLICADAS" th:selected="${curso.areaConhecimento == 'CIENCIAS_SOCIAIS_APLICADAS'}">Ciências Sociais Aplicadas</option>
+			                           <option value="CIENCIAS_HUMANAS" th:selected="${curso.areaConhecimento == 'CIENCIAS_HUMANAS'}">Ciências Humanas</option>
+			                           <option value="LINGUISTICA_LETRAS_E_ARTES" th:selected="${curso.areaConhecimento == 'LINGUISTICA_LETRAS_E_ARTES'}">Linguística, Letras e Artes</option>
+			                       </select>
+			                       <label for="sigla">Sigla do Curso</label>
+			                       <input th:value="${curso.sigla}" type="text" name="sigla" required>
+			                       <button type="submit">Salvar</button>
+			                   </div>
+			               </form>
+			
+        </main>
+    </div>
 </body>
 </html>

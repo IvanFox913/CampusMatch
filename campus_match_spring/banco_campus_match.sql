@@ -60,8 +60,10 @@ create table if not exists curso(
 		'CIENCIAS_HUMANAS',
 		'LINGUISTICA_LETRAS_E_ARTES'),
     sigla varchar(20),
+    id_instituicao bigint not null,
     constraint pk_curso primary key (id)
 );
+alter table curso add foreign key (id_instituicao) references instituicao(id);
 
 
 create table if not exists infraestrutura(

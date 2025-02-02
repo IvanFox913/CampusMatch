@@ -185,3 +185,19 @@ th, td {
     }
 }
 
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Remove spinner for number input in some browsers */
+}
+
