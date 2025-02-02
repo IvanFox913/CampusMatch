@@ -3,6 +3,8 @@ package br.edu.ifsp.campus_match_spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.edu.ifsp.campus_match_spring.model.Infraestrutura;
+import br.edu.ifsp.campus_match_spring.model.Instituicao;
+import br.edu.ifsp.campus_match_spring.model.Publicacao;
 import br.edu.ifsp.campus_match_spring.repository.InfraestruturaRepo;
 
 @Controller
@@ -19,17 +23,44 @@ import br.edu.ifsp.campus_match_spring.repository.InfraestruturaRepo;
 public class InfraestruturaController {
 	
 	@Autowired
-	private InfraestruturaRepo InfraestruturaRepo; 
+	private InfraestruturaRepo infraestruturaRepo; 
+	
 	
 	@GetMapping("index")
 	public String index(Model model) {
 		
-		List<Infraestrutura> infraestruturas = InfraestruturaRepo.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Instituicao user = (Instituicao) authentication.getPrincipal();
 		
+        List<Infraestrutura> infraestruturas = infraestruturaRepo.findByInstituicao(user);
+
 		model.addAttribute("infraestruturas", infraestruturas);
+		
+		if(model.getAttribute("infraestrutura") == null) {
+			model.addAttribute("infraestrutura", new Infraestrutura());
+		}
 		
 		return "/pages/infraestrutura/InfraestruturaIndex";
 	}
+	
+	@GetMapping("index/{id}")
+	public String index2(@PathVariable("id") Long id,Model model) {
+		
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Instituicao user = (Instituicao) authentication.getPrincipal();
+		
+        List<Infraestrutura> infraestruturas = infraestruturaRepo.findByInstituicao(user);
+
+		model.addAttribute("infraestruturas", infraestruturas);
+		model.addAttribute("infraestrutura", infraestruturaRepo.findById(id));
+
+		if(model.getAttribute("infraestrutura") == null) {
+			model.addAttribute("infraestrutura", new Infraestrutura());
+		}
+		
+		return "/pages/infraestrutura/InfraestruturaIndex";
+	}
+
 	
 	@GetMapping("new")
 	public String newInfraestrutura(Model model) {
@@ -42,7 +73,12 @@ public class InfraestruturaController {
 	@PostMapping("save")
 	public String saveInfraestrutura(@ModelAttribute Infraestrutura infraestrutura) {
 		
-		InfraestruturaRepo.save(infraestrutura);
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    Instituicao user = (Instituicao) authentication.getPrincipal();
+		
+	    infraestrutura.setInstituicao(user);
+	    
+		infraestruturaRepo.save(infraestrutura);
 		
 		return "redirect:index";
 	}
@@ -57,9 +93,9 @@ public class InfraestruturaController {
 	
 
 	@GetMapping("deleteInfraestrutura/{id}")
-	public String deleteInfraestrutura(@PathVariable Long id) {
+	public String deleteInfraestrutura(@PathVariable("id") Long id) {
 		
-		InfraestruturaRepo.deleteById(id);
+		infraestruturaRepo.deleteById(id);
 		
 		return "redirect:/infraestruturas/index";
 	}

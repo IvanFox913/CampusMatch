@@ -67,8 +67,11 @@ create table if not exists curso(
 create table if not exists infraestrutura(
 	id bigint not null auto_increment,
     descricao varchar(100) not null,
+    id_instituicao bigint not null,
     constraint pk_infraestrutura primary key (id)
 );
+alter table infraestrutura add foreign key (id_instituicao) references instituicao(id);
+
 
 create table if not exists publicacao(
 	id bigint not null auto_increment,
