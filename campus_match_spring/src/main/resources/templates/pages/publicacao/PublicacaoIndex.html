@@ -30,6 +30,7 @@
 			<br>
 			<h1>PUBLICAÇÕES</h1>
 
+			<div class="table-container">
 			<table border="1">
 				<thead>
 					<tr>
@@ -41,18 +42,21 @@
 				</thead>
 				<tbody>
 					<tr th:each="publicacao : ${publicacoes}">
-						<td><a th:text="${publicacao.id}" th:href="@{editPublicacao/{id}(id=${publicacao.id})}"></a></td>
+						<td><a th:text="${publicacao.id}" th:href="@{index/{id}(id=${publicacao.id})}"></a></td>
 						<td th:text="${publicacao.descricao}"></td>
 						<td th:text="${publicacao.dataPublicacao}"></td>
 						<td><a th:href="@{deletePublicacao/{id}(id=${publicacao.id})}">Deletar</a></td>
 					</tr>
 				</tbody>
 			</table>
+			</div>
 			<br><br><br>
-			<form method="post" th:action="@{/publicacoes/save}">
+			<form method="post" th:action="@{/publicacoes/save}" th:object="${publicacao}">
 				<div>
+					<label for="id">Codigo</label>
+					<input th:value="*{id}" type="number" name="id" readonly>
 					<label for="descricao">Post</label>
-					<input type="text" name="descricao">
+					<input th:value="*{descricao}" type="text" name="descricao">
 				</div>
 				<div>
 					<button type="Criar">Submit</button>

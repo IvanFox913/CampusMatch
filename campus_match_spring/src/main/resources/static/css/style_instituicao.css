@@ -165,6 +165,12 @@ th, td {
     vertical-align: middle;
 }
 
+/* Adiciona um contêiner com altura fixa e overflow para a tabela */
+.table-container {
+    max-height: 400px; /* Defina uma altura máxima que você deseja */
+    overflow-y: auto; /* Habilita o scroll vertical */
+}
+
 /* Responsividade (móvel) */
 @media screen and (max-width: 600px) {
     table {
