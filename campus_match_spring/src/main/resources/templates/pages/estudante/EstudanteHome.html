@@ -2,29 +2,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>CampusMatch</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Match</title>
+    <link rel="stylesheet" href="/css/style_instituicao.css">
 </head>
 <body>
-	
-	<h1>Estudante Home</h1>
-	
-	<h2>
-		<a th:href="@{/cursos/index}">Cursos</a>
-		<br>
-		
-		<a th:href="@{/instituicoes/index}">Instituições</a>
-		<br>
-		
-		<a th:href="@{/estudantes/index}">Estudantes</a>
-		<br>
-		
-		<a th:href="@{/infraestruturas/index}">Infraestruturas</a>
-		<br>
-		
-		<a th:href="@{/publicacoes/index}">Publicacao</a>
-		<br>
-	</h2>
-	
+    <header>
+        <div class="logo">Campus Match</div>
+        <nav>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidenav">
+            <ul>
+                <li><a th:href="@{/estudantes/instituicoes}">Instituições</a></li>
+                <li><a th:href="@{/estudantes/profile}">Perfil</a></li>
+				<li><a th:href="@{/logout}">Sair</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+        </main>
+    </div>
 </body>
 </html>
