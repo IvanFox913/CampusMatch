@@ -2,9 +2,6 @@ package br.edu.ifsp.campus_match_spring.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +16,6 @@ import br.edu.ifsp.campus_match_spring.model.Instituicao;
 import br.edu.ifsp.campus_match_spring.model.LoginUser;
 import br.edu.ifsp.campus_match_spring.model.UserRecoveryPassword;
 import br.edu.ifsp.campus_match_spring.service.LoginService;
-import br.edu.ifsp.campus_match_spring.util.Constants;
 
 
 @Controller

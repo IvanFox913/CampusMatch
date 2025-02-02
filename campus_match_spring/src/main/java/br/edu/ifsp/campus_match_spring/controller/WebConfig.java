@@ -17,7 +17,6 @@ import br.edu.ifsp.campus_match_spring.util.Constants;
 
 import java.util.Properties;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 

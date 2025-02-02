@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.edu.ifsp.campus_match_spring.model.Infraestrutura;
 import br.edu.ifsp.campus_match_spring.model.Instituicao;
-import br.edu.ifsp.campus_match_spring.model.Publicacao;
 import br.edu.ifsp.campus_match_spring.repository.InfraestruturaRepo;
 
 @Controller
@@ -50,9 +49,9 @@ public class InfraestruturaController {
         Instituicao user = (Instituicao) authentication.getPrincipal();
 		
         List<Infraestrutura> infraestruturas = infraestruturaRepo.findByInstituicao(user);
-
+        Infraestrutura i = infraestruturaRepo.findById(id).orElse(null);
 		model.addAttribute("infraestruturas", infraestruturas);
-		model.addAttribute("infraestrutura", infraestruturaRepo.findById(id));
+		model.addAttribute("infraestrutura", i);
 
 		if(model.getAttribute("infraestrutura") == null) {
 			model.addAttribute("infraestrutura", new Infraestrutura());

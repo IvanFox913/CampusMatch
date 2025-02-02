@@ -54,9 +54,9 @@
 			<form method="post" th:action="@{/infraestruturas/save}" th:object="${infraestrutura}">
 				<div>
 					<label for="id">Codigo</label>
-					<input th:value="*{id}" type="number" name="id" readonly>
+					<input th:value="${infraestrutura.getId()}" type="number" name="id" readonly>
 					<label for="descricao">Descricao</label>
-					<input th:value="*{descricao}" type="text" name="descricao">
+					<input th:value="${infraestrutura.getDescricao()}" type="text" name="descricao">
 				</div>
 				<div>
 					<button type="Criar">Submit</button>
