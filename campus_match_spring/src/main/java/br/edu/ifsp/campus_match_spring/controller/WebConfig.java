@@ -78,10 +78,14 @@ public class WebConfig implements WebMvcConfigurer{
 							,"/estudantes/save/**"
 							,"/instituicoes/save/**"
 							,"/favicon.ico"
+							,"/logout"
 							).permitAll()
 					
 					.requestMatchers(
 							"/instituicoes/**"
+							,"/infraestruturas/**"
+							,"/cursos/**"
+							,"/publicacoes/**"
 							).hasRole(Constants.USER_INSTITUICAO)
 					
 					.requestMatchers(
@@ -97,6 +101,7 @@ public class WebConfig implements WebMvcConfigurer{
 						.successHandler(new CustomAuthenticationSuccessHandler())
 					)
 			.httpBasic(Customizer.withDefaults())
+		    .logout((logout) -> logout.logoutUrl("/logout"))
 			
 			;
 
