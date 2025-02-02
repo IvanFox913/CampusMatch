@@ -3,6 +3,8 @@ package br.edu.ifsp.campus_match_spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.edu.ifsp.campus_match_spring.model.Instituicao;
 import br.edu.ifsp.campus_match_spring.model.Publicacao;
 import br.edu.ifsp.campus_match_spring.repository.PublicacaoRepo;
 
@@ -25,8 +28,10 @@ public class PublicacaoController {
 	@GetMapping("index")
 	public String index(Model model) {
 		
-		List<Publicacao> publicacoes = publicacaoRepo.findAll();
-		
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Instituicao user = (Instituicao) authentication.getPrincipal();
+		List<Publicacao> publicacoes = publicacaoRepo.findByInstituicao(user);
+
 		model.addAttribute("publicacoes", publicacoes);
 		
 		if(model.getAttribute("publicacao") == null) {
@@ -39,9 +44,12 @@ public class PublicacaoController {
 	@GetMapping("index/{id}")
 	public String index(Model model,@PathVariable("id") Long id) {
 		
-		List<Publicacao> publicacoes = publicacaoRepo.findAll();
-		
-		model.addAttribute("publicacoes", publicacoes);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Instituicao user = (Instituicao) authentication.getPrincipal();
+		List<Publicacao> publicacoes = publicacaoRepo.findByInstituicao(user);
+
+		model.addAttribute("publicacoes", publicacoes);		
+
 		model.addAttribute("publicacao", publicacaoRepo.getById(id));
 		
 		if(model.getAttribute("publicacao") == null) {
@@ -63,7 +71,11 @@ public class PublicacaoController {
 	
 	@PostMapping("save")
 	public String savePublicacao(@ModelAttribute Publicacao publicacao) {
-		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Instituicao user = (Instituicao) authentication.getPrincipal();
+        
+        publicacao.setInstituicao(user);
+        
 		publicacaoRepo.save(publicacao);
 		
 		return "redirect:index";

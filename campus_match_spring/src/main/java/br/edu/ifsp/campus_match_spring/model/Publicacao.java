@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -24,19 +25,23 @@ public class Publicacao {
 	
 	private String descricao;
 	
-    @OneToMany
-    @JoinTable(
-        name = "instituicao_publicacao",
-        joinColumns = @JoinColumn(name = "id_instituicao"),
-        inverseJoinColumns = @JoinColumn(name = "id_publicacao")
-    )
-    private List<Publicacao> Publicacoes;
+	@ManyToOne
+	@JoinColumn(name = "id_instituicao")
+    private Instituicao instituicao;
     
 	@Column(name = "data_publicacao")
 	private Date dataPublicacao;
 
 	public Long getId() {
 		return id;
+	}
+
+	public Instituicao getInstituicao() {
+		return instituicao;
+	}
+
+	public void setInstituicao(Instituicao instituicao) {
+		this.instituicao = instituicao;
 	}
 
 	public void setId(Long id) {

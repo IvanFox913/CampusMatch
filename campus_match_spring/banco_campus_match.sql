@@ -74,8 +74,11 @@ create table if not exists publicacao(
 	id bigint not null auto_increment,
     descricao varchar(100) not null,
     data_publicacao timestamp not null,
+    id_instituicao bigint not null,
     constraint pk_publicacao primary key (id)
 );
+alter table publicacao add foreign key (id_instituicao) references instituicao(id);
+
 
 create table if not exists favorito(
 	id bigint not null auto_increment,
