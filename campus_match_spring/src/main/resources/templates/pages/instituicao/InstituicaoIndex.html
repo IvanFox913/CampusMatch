@@ -2,47 +2,68 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Match</title>
+    <link rel="stylesheet" href="/css/style_instituicao.css">
 </head>
 <body>
-	<h1>Instituição CRUD</h1>
-	
-	<a th:href="@{new}">Nova Instituição</a>
-	
-	<table border="1">
-   		<thead>
-   			<tr>
-   				<th>Id</th>
-   				<th>Nome</th>
-   				<th>E-mail</th>
-   				<th>Senha</th>
-   				<th>CEP</th>
-   				<th>Nº Mec</th>
-   				<th>Campus</th>
-   				<th>Pública</th>
-   				<th>Cursos</th>
-   			    <th>Infraestruturas</th>
-   				<th>Publicações</th>
-   				<th>Delete</th>
-   				</tr>
-   		</thead>
-   		<tbody>
-   			<tr th:each="instituicao : ${instituicoes}">
-   				<td><a th:text="${instituicao.id}" th:href="@{editInstituicao/{id}(id=${instituicao.id})}"></a></td>
-   				<td th:text="${instituicao.nome}"></td>
-   				<td th:text="${instituicao.email}"></td>
-   				<td th:text="${instituicao.senha}"></td>
-   				<td th:text="${instituicao.cep}"></td>
-   				<td th:text="${instituicao.numeroMec}"></td>
-   				<td th:text="${instituicao.campus}"></td>
-   				<td th:text="${instituicao.publica}"></td>
-   				<td><ul> <li th:each="curso : ${instituicao.cursos}" th:text="${curso.nome}"></li></ul></td>
-   				<td><ul> <li th:each="infra : ${instituicao.infraestruturas}" th:text="${infra.descricao}"></li></ul></td>
-   				<td><ul> <li th:each="pub : ${instituicao.publicacoes}" th:text="${pub.descricao}"></li></ul></td>
-   				<td><a th:href="@{deleteInstituicao/{id}(id=${instituicao.id})}">X</a></td>
-   			</tr>
-   		</tbody>
-   	</table>
-	
+    <header>
+        <div class="logo">Campus Match</div>
+        <nav>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidenav">
+            <ul>
+				<li><a th:href="@{/estudantes/instituicoes}">Instituições</a></li>
+				 <li><a th:href="@{/estudantes/profile}">Perfil</a></li>
+				<li><a th:href="@{/logout}">Sair</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+			<br>
+			<br>
+			<br>
+			<h1>INSTITUIÇÕES</h1>
+
+			<div class="table-container">
+				<table border="1">
+				   		<thead>
+				   			<tr>
+				   				<th>Codigo</th>
+				   				<th>Nome</th>
+				   				<th>E-mail</th>
+				   				<th>CEP</th>
+				   				<th>Nº Mec</th>
+				   				<th>Campus</th>
+				   				<th>Tipo</th>
+				   				<th>Publicações</th>
+				   				<th>Cursos</th>
+								<th>Infraestrutura</th>
+				   				</tr>
+				   		</thead>
+				   		<tbody>
+				   			<tr th:each="instituicao : ${instituicoes}">
+				   				<td><a th:text="${instituicao.id}"></a></td>
+				   				<td th:text="${instituicao.nome}"></td>
+				   				<td th:text="${instituicao.email}"></td>
+				   				<td th:text="${instituicao.cep}"></td>
+				   				<td th:text="${instituicao.numeroMec}"></td>
+				   				<td th:text="${instituicao.campus}"></td>
+				   				<td th:text="${instituicao.tipo}"></td>
+				   				<td><a th:href="@{publicacoes/{id}(id=${instituicao.id})}">X</a></td>
+				   				<td><a th:href="@{cursos/{id}(id=${instituicao.id})}">X</a></td>
+								<td><a th:href="@{infraestruturas/{id}(id=${instituicao.id})}">X</a></td>
+				   			</tr>
+				   		</tbody>
+				   	</table>
+					
+			</div>
+			
+        </main>
+    </div>
 </body>
 </html>

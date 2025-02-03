@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.edu.ifsp.campus_match_spring.model.Estudante;
 import br.edu.ifsp.campus_match_spring.model.Instituicao;
 import br.edu.ifsp.campus_match_spring.repository.EstudanteRepo;
+import br.edu.ifsp.campus_match_spring.repository.InstituicaoRepo;
 import br.edu.ifsp.campus_match_spring.service.EstudanteService;
 
 @Controller
@@ -33,6 +34,9 @@ public class EstudanteController {
 	
 	@Autowired
 	private EstudanteService estudanteService;
+	
+	@Autowired
+	private InstituicaoRepo instituicaoRepo;
 	
 	@GetMapping("home")
 	public String home() {
@@ -114,11 +118,15 @@ public class EstudanteController {
         }
 	}
 	
-	@GetMapping("deleteEstudante/{id}")
-	public String deleteEstudante(@PathVariable("id") Long id) {
-		
-		estudanteRepo.deleteById(id);
-		
-		return "redirect:/estudantes/index";
+	@GetMapping("instituicoes")
+	public String instituicoes(@ModelAttribute Estudante estudante, Model model) {
+        
+        List<Instituicao> instituicoes = instituicaoRepo.findAll();
+        
+        model.addAttribute("instituicoes",instituicoes);
+       		
+		return "/pages/instituicao/InstituicaoIndex";
 	}
+	
+	
 }
