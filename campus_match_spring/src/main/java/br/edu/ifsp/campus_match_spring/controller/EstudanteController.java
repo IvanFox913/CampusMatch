@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.ifsp.campus_match_spring.model.Estudante;
+import br.edu.ifsp.campus_match_spring.model.Instituicao;
 import br.edu.ifsp.campus_match_spring.repository.EstudanteRepo;
 import br.edu.ifsp.campus_match_spring.service.EstudanteService;
 
@@ -35,6 +38,16 @@ public class EstudanteController {
 	public String home() {
 		
 		return "/pages/estudante/EstudanteHome";
+	}
+	
+	@GetMapping("profile")
+	public String profile(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Estudante user = (Estudante) authentication.getPrincipal();
+        Estudante estudante = estudanteRepo.getById(user.getId());
+        model.addAttribute("estudante",estudante);
+		
+		return "/pages/estudante/EstudanteProfile";
 	}
 	
 	@GetMapping("index")
@@ -89,12 +102,16 @@ public class EstudanteController {
 		}
 	}
 	
-	@GetMapping("editEstudante/{id}")
-	public String editEstudante(@PathVariable("id") Estudante estudante, Model model) {
-		
-		model.addAttribute(estudante);
-		
-		return "/pages/web/EstudanteNew";
+	@PostMapping("edit")
+	public String editInstituicao(@ModelAttribute Estudante estudante, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Estudante user = (Estudante) authentication.getPrincipal();
+       		
+        if(estudanteService.edit(estudante, user)) {
+    		return "redirect:/estudantes/profile";
+        }else {
+    		return "redirect:/estudantes/profile";
+        }
 	}
 	
 	@GetMapping("deleteEstudante/{id}")

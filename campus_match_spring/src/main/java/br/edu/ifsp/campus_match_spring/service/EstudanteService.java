@@ -56,5 +56,26 @@ public class EstudanteService {
 			);
 		return true;
 	}
+
+
+	public boolean edit(Estudante estudante, Estudante user) {
+		if(estudante.getSenha() != "" && estudante.getSenha() != null) {
+			estudante.setSenha(passwordService.hashPassword(estudante.getSenha()));
+		}else {
+			estudante.setSenha(user.getSenha());
+		}
+		
+		if(estudante.getDataNascimento()  == null) {
+			estudante.setDataNascimento(user.getDataNascimento());
+		}
+		
+		estudante.setId(user.getId());
+		estudante.setUuid(user.getUuid());
+
+		
+		estudanteRepo.save(estudante);
+		
+		return true;
+	}
 	
 }
