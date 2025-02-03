@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Match</title>
+    <link rel="stylesheet" href="/css/style_instituicao.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Campus Match</div>
+        <nav>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidenav">
+            <ul>
+				<li><a th:href="@{/estudantes/instituicoes}">Instituições</a></li>
+						 <li><a th:href="@{/estudantes/profile}">Perfil</a></li>
+						<li><a th:href="@{/logout}">Sair</a></li>
+
+            </ul>
+        </aside>
+
+        <main class="content">
+			<br>
+			<br>
+			<br>
+			<h1>INFRAESTRUTURA</h1>
+
+			<div class="table-container">
+				<table border="1">
+				   		<thead>
+				   			<tr>
+				   				<th>Codigo</th>
+				   				<th>Descrição</th>
+				   			</tr>
+				   		</thead>
+				   		<tbody>
+				   			<tr th:each="infraestrutura : ${infraestruturas}">
+				   				<td><a th:text="${infraestrutura.id}" th:href="@{/infraestruturas/index/{id}(id=${infraestrutura.id})}"></a></td>
+				   				<td th:text="${infraestrutura.descricao}"></td>
+				   			</tr>
+				   		</tbody>
+				   	</table>
+			</div>
+			<br><br><br>
+			
+	
+        </main>
+    </div>
+</body>
+</html>

@@ -20,10 +20,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.ifsp.campus_match_spring.model.Curso;
 import br.edu.ifsp.campus_match_spring.model.Estudante;
+import br.edu.ifsp.campus_match_spring.model.Infraestrutura;
 import br.edu.ifsp.campus_match_spring.model.Instituicao;
 import br.edu.ifsp.campus_match_spring.repository.CursoRepo;
 import br.edu.ifsp.campus_match_spring.repository.EstudanteRepo;
+import br.edu.ifsp.campus_match_spring.repository.InfraestruturaRepo;
 import br.edu.ifsp.campus_match_spring.repository.InstituicaoRepo;
+import br.edu.ifsp.campus_match_spring.repository.PublicacaoRepo;
 import br.edu.ifsp.campus_match_spring.service.EstudanteService;
 
 @Controller
@@ -41,6 +44,10 @@ public class EstudanteController {
 	private InstituicaoRepo instituicaoRepo;
 	@Autowired
 	private CursoRepo cursoRepo;
+	@Autowired
+	private InfraestruturaRepo infraestruturaRepo;
+	@Autowired
+	private PublicacaoRepo publicacaoRepo;
 	
 	
 	@GetMapping("home")
@@ -144,10 +151,15 @@ public class EstudanteController {
 		return "/pages/curso/CursoNew";
 	}
 	
-	@GetMapping("instituicoes/{id}")
+	@GetMapping("infraestruturas/{id}")
 	public String instituicoes(@PathVariable("id") Long id,Model model) {
+        Instituicao instituicao = instituicaoRepo.findById(id).orElse(null);
+
+        List<Infraestrutura> infraestruturas = infraestruturaRepo.findByInstituicao(instituicao);
+        
+        model.addAttribute("infraestruturas",infraestruturas);
                
-		return "/pages/instituicao/InstituicaoIndex";
+		return "/pages/infraestrutura/InfraestruturaIndexNew";
 	}
 	
 	@GetMapping("publicacoes/{id}")
