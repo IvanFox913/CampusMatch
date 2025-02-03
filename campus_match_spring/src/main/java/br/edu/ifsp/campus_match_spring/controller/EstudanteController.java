@@ -22,6 +22,7 @@ import br.edu.ifsp.campus_match_spring.model.Curso;
 import br.edu.ifsp.campus_match_spring.model.Estudante;
 import br.edu.ifsp.campus_match_spring.model.Infraestrutura;
 import br.edu.ifsp.campus_match_spring.model.Instituicao;
+import br.edu.ifsp.campus_match_spring.model.Publicacao;
 import br.edu.ifsp.campus_match_spring.repository.CursoRepo;
 import br.edu.ifsp.campus_match_spring.repository.EstudanteRepo;
 import br.edu.ifsp.campus_match_spring.repository.InfraestruturaRepo;
@@ -164,8 +165,13 @@ public class EstudanteController {
 	
 	@GetMapping("publicacoes/{id}")
 	public String publicacoes(@PathVariable("id") Long id,Model model) {
+        Instituicao instituicao = instituicaoRepo.findById(id).orElse(null);
+
+        List<Publicacao> publicacoes = publicacaoRepo.findByInstituicao(instituicao);
+        
+        model.addAttribute("publicacoes",publicacoes);
                
-		return "/pages/instituicao/InstituicaoIndex";
+		return "/pages/publicacao/PublicacaoIndexNew";
 	}
 	
 }
