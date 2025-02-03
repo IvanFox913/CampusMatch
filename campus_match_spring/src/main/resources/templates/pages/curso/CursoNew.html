@@ -2,50 +2,59 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Novo Curso</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Match</title>
+    <link rel="stylesheet" href="/css/style_instituicao.css">
 </head>
 <body>
-	<form method="post" th:action="@{/cursos/save}" th:object="${curso}">
-		<div>
-			<label for="id">Id</label>
-			<input type="number" name="id" th:field="*{id}" readonly>
-		</div>
-		<div>
-			<label for="nome">Nome</label>
-			<input type="text" name="nome" th:field="*{nome}">
-		</div>
-		<div>
-			<label for="periodo">Período:</label>
-			<select name="periodo">
-				<option th:each="periodo : ${allPeriodos}"
-					th:value="${periodo}" th:text="${periodo.periodo}"
-					th:field="*{periodo}"></option>
-			</select>
-		</div>
-		<div>
-			<label for="duracao">Duração (semestres):</label>
-			<input type="number" name="duracao" th:field="*{duracao}">
-		</div>
-		<div>
-			<label for="modalidade">Modalidade:</label>
-			<select name="modalidade">
-				<option th:each="modalidade : ${allModalidades}"
-					th:value="${modalidade}" th:text="${modalidade.modalidade}"
-					th:field="*{modalidade}"></option>
-			</select>
-		</div>
-		<div>
-			<label for="areaConhecimento">Área do Conhecimento:</label>
-			<select name="areaConhecimento">
-				<option th:each="areaConhecimento : ${allAreasConhecimento}"
-					th:value="${areaConhecimento}" th:text="${areaConhecimento.areaConhecimento}"
-					th:field="*{areaConhecimento}"></option>
-			</select>
-		</div>
-		<div>
-			<button type="submit">Submit</button>
-		</div>
-	</form>
+    <header>
+        <div class="logo">Campus Match</div>
+        <nav>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidenav">
+            <ul>
+				<li><a th:href="@{/estudantes/instituicoes}">Instituições</a></li>
+				 <li><a th:href="@{/estudantes/profile}">Perfil</a></li>
+				<li><a th:href="@{/logout}">Sair</a></li>>
+            </ul>
+        </aside>
+
+        <main class="content">
+			<br>
+			<br>
+			<br>
+			<h1>CURSOS</h1>
+
+			<div class="table-container">
+				<table border="1">
+					<thead>
+						<tr>
+							<th>Codigo</th>
+							<th>Área Conhecimento</th>
+							<th>Nome</th>
+							<th>Periodo</th>
+							<th>Duração (semestres)</th>
+							<th>Modalidade</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="curso : ${cursos}">
+							<td><a th:text="${curso.id}" th:href="@{/cursos/index/{id}(id=${curso.id})}"></a></td>
+							<td th:text="${curso.areaConhecimento.areaConhecimento}"></td>
+							<td th:text="${curso.nome}"></td>
+							<td th:text="${curso.periodo.periodo}"></td>
+							<td th:text="${curso.duracao}"></td>
+							<td th:text="${curso.modalidade.modalidade}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+        </main>
+    </div>
 </body>
 </html>
